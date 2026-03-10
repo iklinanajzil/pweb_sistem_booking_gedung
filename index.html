@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Booking Ruangan dan Gedung | Universitas Jember</title>
+    <style>
+        :root {
+            --unej-blue: #0056b3;
+            --unej-yellow: #ffcc00;
+            --soft-bg: #f4f7fa;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --white: #ffffff;
+            --shadow: 0 10px 25px rgba(0,0,0,0.05);
+            --radius: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            background-color: var(--soft-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* (1) Header */
+        header {
+            background: var(--white);
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            position: sticky;
+            top: 0; z-index: 1000;
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-area img { width: 50px; height: 50px; object-fit: contain; }
+        .logo-area h1 { font-size: 1.2rem; font-weight: 800; color: var(--unej-blue); max-width: 250px; line-height: 1.2; }
+
+        /* (2) Nav */
+        nav { display: flex; gap: 25px; }
+        nav a { 
+            text-decoration: none; 
+            color: var(--text-muted); 
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        nav a:hover { color: var(--unej-blue); }
+
+        .wrapper { 
+            display: grid; 
+            grid-template-columns: 3fr 1fr; 
+            gap: 30px; 
+            padding: 40px 5%; 
+        }
+
+        /* (3) Form Area */
+        .card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        h2 { margin-bottom: 25px; font-size: 1.5rem; color: var(--unej-blue); display: flex; align-items: center; gap: 10px; }
+        h2::before { content: ''; width: 5px; height: 25px; background: var(--unej-yellow); display: inline-block; border-radius: 10px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .full-width { grid-column: span 2; }
+
+        .form-group { margin-bottom: 10px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.85rem; color: var(--text-dark); }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8fafc;
+            transition: all 0.3s ease;
+        }
+
+        input:focus { border-color: var(--unej-blue); background: var(--white); outline: none; box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.1); }
+
+        .btn-submit {
+            background: var(--unej-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            width: 100%;
+            margin-top: 20px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        .btn-submit:hover { background: #004494; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 86, 179, 0.3); }
+
+        /* (4) Tabel Area */
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background: #f8fafc; text-align: left; padding: 15px; color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; }
+        td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
+        
+        .status { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+        .status-success { background: #e6fffa; color: #008767; }
+        .status-wait { background: #fffaf0; color: #9b5600; }
+
+        .btn-view-all {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 12px;
+            margin-top: 20px;
+            background: #f1f5f9;
+            color: var(--unej-blue);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .btn-view-all:hover { background: #e2e8f0; }
+
+        /* (5) Sidebar Statistik */
+        .stat-grid { display: grid; gap: 15px; }
+        .stat-box {
+            padding: 20px;
+            border-radius: var(--radius);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-1 { background: linear-gradient(135deg, #0056b3, #00a8ff); }
+        .stat-2 { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .stat-3 { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        
+        .stat-box h4 { font-size: 0.8rem; opacity: 0.8; text-transform: uppercase; }
+        .stat-box .value { font-size: 2rem; font-weight: 800; margin-top: 5px; }
+
+        /* (6) Footer */
+        footer {
+            background: #1a1c23;
+            color: #a0aec0;
+            padding: 60px 5% 30px;
+            text-align: center;
+        }
+
+        /* (BARU) MODAL CSS */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+        .btn-confirm { background: var(--unej-blue); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-cancel { background: #e2e8f0; color: var(--text-dark); border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .success-icon { font-size: 50px; margin-bottom: 15px; display: block; }
+
+        @media (max-width: 992px) {
+            .wrapper { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <img src="img/logo-unej.png" alt="Logo Universitas Jember">
+            <!-- <img src="https://upload.wikimedia.org/wikipedia/id/thumb/8/85/Logo_Unej.png/200px-Logo_Unej.png" alt="Logo Universitas Jember"> -->
+            <h1>Sistem Booking Ruangan dan Gedung</h1>
+        </div>
+        <nav>
+            <a href="#">Beranda</a>
+            <a href="#">Jadwal Gedung</a>
+            <a href="#">Prosedur</a>
+        </nav>
+    </header>
+
+    <div class="wrapper">
+        <main>
+            <section class="card">
+                <h2>Pengajuan Peminjaman</h2>
+                <form id="bookingForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Kode Booking</label>
+                            <input type="text" value="UNJ-2026-99" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Gedung/Ruangan</label>
+                            <select required>
+                                <option value="">Pilih Gedung...</option>
+                                <option>Auditorium UNEJ</option>
+                                <option>Gedung Soetardjo</option>
+                                <option>Double Way Area</option>
+                                <option>Gedung Mas Soerachman</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Penyelenggara / Organisasi</label>
+                            <input type="text" placeholder="Masukkan nama UKM / Fakultas / Instansi" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Pengajuan</label>
+                            <input type="date" value="2026-03-07">
+                        </div>
+                        <div class="form-group">
+                            <label>Kategori Kegiatan</label>
+                            <select>
+                                <option>Seminar / Kuliah Umum</option>
+                                <option>Kegiatan Mahasiswa</option>
+                                <option>Acara Formal / Wisuda</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Mulai Digunakan</label>
+                            <input type="datetime-local" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Selesai Digunakan</label>
+                            <input type="datetime-local" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Bukti Surat Izin Kegiatan (PDF)</label>
+                            <input type="file" accept=".pdf" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Proposal Kegiatan (PDF)</label>
+                            <input type="file" accept=".pdf" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Keterangan Tambahan</label>
+                            <textarea rows="3" placeholder="Contoh: Kebutuhan sound system..."></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Ajukan Peminjaman Sekarang</button>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2>Riwayat Peminjaman Terakhir</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>PENYELENGGARA</th>
+                                <th>GEDUNG</th>
+                                <th>TGL MULAI</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>BEM Universitas</b></td>
+                                <td>Gedung Soetardjo</td>
+                                <td>10 Mar 2026</td>
+                                <td><span class="status status-success">Approved</span></td>
+                            </tr>
+                            <tr>
+                                <td>UKM Seni Unej</td>
+                                <td>Auditorium</td>
+                                <td>12 Mar 2026</td>
+                                <td><span class="status status-wait">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>Prodi Akuntansi</td>
+                                <td>Mas Soerachman</td>
+                                <td>15 Mar 2026</td>
+                                <td><span class="status status-success">Approved</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="#" class="btn-view-all">Tampilkan Semua Riwayat Peminjaman</a>
+            </section>
+        </main>
+
+        <aside>
+            <div class="stat-grid">
+                <div class="stat-box stat-1">
+                    <h4>Gedung Tersedia</h4>
+                    <div class="value">28</div>
+                </div>
+                <div class="stat-box stat-2">
+                    <h4>Disetujui</h4>
+                    <div class="value">14</div>
+                </div>
+                <div class="stat-box stat-3">
+                    <h4>Pending</h4>
+                    <div class="value">07</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        <div style="font-weight: 700; color: white; margin-bottom: 10px;">Universitas Jember</div>
+        <p>Biro Sarana dan Prasarana - Kantor Pusat UNEJ</p>
+        <p>&copy; 2026 SIPEGEDUNG UNEJ.</p>
+    </footer>
+
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal-content" id="modalBody">
+            <span class="success-icon">📝</span>
+            <h3>Konfirmasi Pengajuan</h3>
+            <p>Apakah Anda yakin data yang dimasukkan sudah benar?</p>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal()">Periksa Lagi</button>
+                <button class="btn-confirm" onclick="executeSubmit()">Ya, Kirim</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bookingForm = document.getElementById('bookingForm');
+        const modal = document.getElementById('confirmModal');
+        const modalBody = document.getElementById('modalBody');
+
+        // Munculkan Modal saat submit
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            modal.style.display = 'flex';
+        });
+
+        // Tutup Modal
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // Jalankan simulasi kirim
+        function executeSubmit() {
+            modalBody.innerHTML = `
+                <span class="success-icon">✅</span>
+                <h3>Berhasil!</h3>
+                <p>Permohonan Anda telah masuk ke sistem kami.</p>
+                <button class="btn-confirm" onclick="location.reload()">Tutup</button>
+            `;
+        }
+
+        // Klik di luar modal untuk tutup
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+        }
+    </script>
+
+</body>
+</html>
