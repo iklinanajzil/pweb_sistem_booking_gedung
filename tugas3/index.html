@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPEGEDUNG | Universitas Jember</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <img src="img/logo-unej.png" alt="Logo UNEJ">
+            <div class="brand-text">
+                <span class="main-title">SISTEM BOOKING</span>
+                <span class="sub-title">RUANGAN DAN GEDUNG</span>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html" class="active">Beranda</a></li>
+                <li><a href="gedung.html">Daftar Gedung</a></li>
+                <li><a href="prosedur.html">Prosedur</a></li>
+                <li><a href="riwayat.html">Riwayat Peminjaman</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-overlay">
+            <h1>Layanan Peminjaman Gedung dan Ruangan</h1>
+            <p>Fasilitas Resmi Universitas Jember Kampus Tegalboto</p>
+        </div>
+    </section>
+
+    <section class="search-container container">
+        <div class="search-box">
+            <input type="text" id="searchGedung" placeholder="Cari gedung...">
+            <button type="button" id="btnSearch">Cari</button>
+        </div>
+    </section>
+
+    <div class="main-layout container">
+        <main>
+            <h2 class="section-heading">Rekomendasi Ruangan</h2>
+            <div class="grid-container">
+                <div class="info-card">
+                    <div class="card-image-wrapper">
+                        <img src="img/auditorium.png" alt="Auditorium" class="card-img">
+                    </div>
+                    <div class="card-body">
+                        <h4>Auditorium</h4>
+                        <p>Kapasitas: 1000</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="card-image-wrapper">
+                        <img src="img/soetardjo.png" alt="Soetardjo" class="card-img">
+                    </div>
+                    <div class="card-body">
+                        <h4>Soetardjo</h4>
+                        <p>Kapasitas: 500</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="card-image-wrapper">
+                        <img src="img/lab.png" alt="Lab Terpadu" class="card-img">
+                    </div>                   
+                    <div class="card-body">
+                        <h4>Lab Terpadu</h4>
+                        <p>Kapasitas: 40</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="card-image-wrapper">
+                        <img src="img/soerachman.png" alt="soerachman" class="card-img">
+                    </div>
+                    <div class="card-body">
+                        <h4>Soerachman</h4>
+                        <p>Kapasitas: 200</p>
+                    </div>
+                </div>
+            </div>
+
+            <section class="card-section">
+                <section id="formulir" class="card-section">
+                    <h2 class="section-heading" id="formTitle">Formulir Pengajuan Peminjaman</h2>
+                    
+                    <form id="bookingForm" class="modern-form">
+                        <input type="hidden" id="editIndex" value="-1">
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Kode Booking</label>
+                                <input type="text" id="bookingCode" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nama Gedung/Ruangan</label>
+                                <select id="namaGedung" required>
+                                    <option value="">-- Pilih Gedung --</option>
+                                    <option value="Auditorium UNEJ">Auditorium UNEJ</option>
+                                    <option value="Gedung Soetardjo">Gedung Soetardjo</option>
+                                    <option value="Gedung Mas Soerachman">Gedung Mas Soerachman</option>
+                                    <option value="Lab Terpadu">Lab Terpadu</option>
+                                    <option value="Aula Fasilkom">Aula Fasilkom</option>
+                                    <option value="CDAST Utara lantai 4">CDAST Utara lantai 4</option>
+                                    <option value="Aula FEB">Aula FEB</option>
+                                    <option value="Aula FKM">Aula FKM</option>
+                                    <option value="CDAST selatan lantai 8">CDAST selatan lantai 8</option>
+                                    <option value="Gedung Kewirausahaan">Gedung Kewirausahaan</option>
+                                    <option value="Double Way">Double Way</option>
+                                    <option value="Aula Lantai 3">Aula Lantai 3</option>
+                                    <option value="Aula KAUJE">Aula KAUJE</option>
+                                    <option value="PKM">PKM</option>
+                                    <option value="Student Center">Student Center</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full">
+                                <label>Penyelenggara / Organisasi</label>
+                                <input type="text" id="organisasi" placeholder="Nama UKM / Fakultas / Instansi" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tanggal Pengajuan</label>
+                                <input type="date" id="tglPengajuan" value="2026-03-23">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Kategori Kegiatan</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="kat" value="Seminar" checked> Seminar</label>
+                                    <label><input type="radio" name="kat" value="Mahasiswa"> Mahasiswa</label>
+                                    <label><input type="radio" name="kat" value="Formal"> Formal</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mulai Digunakan</label>
+                                <input type="datetime-local" id="tglMulai" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Selesai Digunakan</label>
+                                <input type="datetime-local" id="tglSelesai" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Bukti Surat Izin (PDF)</label>
+                                <input type="file" accept=".pdf">
+                                <small id="fileStatusIzin" style="color: blue; display: none;">File sudah terunggah</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Proposal Kegiatan (PDF)</label>
+                                <input type="file" accept=".pdf">
+                                <small id="fileStatusProposal" style="color: blue; display: none;">File sudah terunggah</small>
+                            </div>
+
+                            <div class="form-group full">
+                                <label>Keterangan Tambahan</label>
+                                <textarea id="keterangan" rows="3" placeholder="Tuliskan detail kebutuhan..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" id="submitBtn" class="btn-submit">Ajukan Peminjaman Sekarang</button>
+                    </form>
+                </section>
+
+            <section class="card-section">
+    <h2 class="section-heading">Riwayat Peminjaman Terakhir</h2>
+    <div class="table-responsive">
+        <div class="stat-card">
+            <table class="zebra-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>ID Booking</th>
+                        <th>Gedung</th>
+                        <th>Penyelenggara</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="bodyRiwayatBeranda"></tbody>
+            </table>
+
+            <div style="margin-top: 15px; text-align: center;">
+                <a href="riwayat.html" style="display: inline-block; padding: 10px 20px; background: #1A374D; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                    Lihat Semua Riwayat →
+                </a>
+            </div>
+        </div>
+                    
+                </div>
+            </section>
+        </main>
+
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <h3 class="section-heading">Statistik & Filter</h3>
+                <div class="stat-box orange">Menunggu Konfirmasi: <strong id="statPending">0</strong></div>
+                <div class="stat-box blue">Total Pengajuan: <strong id="statTotal">0</strong></div>
+                <div class="stat-box green">Booking Disetujui: <strong id="statSetuju">0</strong></div>
+                <hr>
+                <div class="filter-options">
+                    <p><b>Opsi Filter:</b></p>
+                    <label class="custom-check"><input type="checkbox" checked> Ruang AC</label>
+                    <label class="custom-check"><input type="checkbox"> Outdoor</label>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+
+     <footer class="footer">
+        <div class="footer-grid container">
+            <div class="footer-col">
+                <h4>Tentang UNEJ</h4>
+                <p>Biro Sarana dan Prasarana Kampus Tegalboto, Jember.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Tautan Cepat</h4>
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="gedung.html">Daftar Gedung</a></li>
+                    <li><a href="prosedur.html">Prosedur</a></li>
+                    <li><a href="riwayat.html">Riwayat Peminjaman</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <p>Jl. Kalimantan No. 37<br>Email: sarpras@unej.ac.id</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 SIPEGEDUNG - Universitas Jember.
+        </div>
+    </footer>
+    <script src="script.js"></script>
+
+</body>
+</html>
