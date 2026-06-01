@@ -26,7 +26,9 @@ if (bookingForm) {
             tglMulai: document.getElementById('tglMulai').value,
             tglSelesai: document.getElementById('tglSelesai').value,
             keterangan: document.getElementById('keterangan').value,
-            status: "Menunggu"
+            status: "Menunggu",
+            // isAC: document.getElementById('namaGedung').value.includes("Auditorium") || document.getElementById('namaGedung').value.includes("Lab Terpadu") || document.getElementById('namaGedung').value.includes("Gedung Soetardjo") || document.getElementById('namaGedung').value.includes("Mas Soerachman") || document.getElementById('namaGedung').value.includes("Aula Fasilkom") || document.getElementById('namaGedung').value.includes("CDAST Utara lantai 4") || document.getElementById('namaGedung').value.includes("Aula FEB") || document.getElementById('namaGedung').value.includes("Aula FKM") || document.getElementById('namaGedung').value.includes("CDAST selatan lantai 8") || document.getElementById('namaGedung').value.includes("Gedung Kewirausahaan") || document.getElementById('namaGedung').value.includes("Aula Lantai 3") || document.getElementById('namaGedung').value.includes("Student Center"),
+            // isOutdoor: document.getElementById('namaGedung').value.includes("Double Way") || document.getElementById('namaGedung').value.includes("PKM") || document.getElementById('namaGedung').value.includes("Aula KAUJE")
         };
         if (dataInput.organisasi.length < 5) {
             alert("Nama organisasi minimal 5 karakter!");
@@ -68,8 +70,11 @@ const renderRecentBookings = () => {
     `).join('');
 };
 
+
 const renderTable = (dataToRender = daftarBooking) => {
-    const tableBody = document.querySelector('.zebra-table tbody');
+    // Ubah baris ini agar menggunakan ID yang baru kita buat
+    const tableBody = document.getElementById('bodyRiwayatPenuh'); 
+    
     if (!tableBody) return;
 
     tableBody.innerHTML = dataToRender.map((item, index) => `
@@ -78,14 +83,13 @@ const renderTable = (dataToRender = daftarBooking) => {
             <td><b>${item.id}</b></td>
             <td>${item.gedung}</td>
             <td>${item.organisasi}</td>
-            <td>${item.tglMulai.replace('T', ' ')}</td>
-
+            <td>${item.tglMulai ? item.tglMulai.replace('T', ' ') : '-'}</td>
             <td><span class="status orange">${item.status}</span></td>
             <td>
-            <a href="status.html?id=${item.id}" style="color: #1A374D; font-weight: bold; text-decoration: none;">
-                🔍 Cek Progres
-            </a>
-        </td>
+                <a href="status.html?id=${item.id}" style="color: #1A374D; font-weight: bold; text-decoration: none;">
+                    🔍 Cek Progres
+                </a>
+            </td>
             <td>
                 <button onclick="prepareEdit(${index})" style="background:#FBC02D; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Edit</button>
                 <button onclick="deleteBooking(${index})" style="background:red; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Hapus</button>
@@ -94,6 +98,7 @@ const renderTable = (dataToRender = daftarBooking) => {
     `).join('');
     updateStats();
 };
+
 
 const searchInput = document.getElementById('searchBooking');
 if (searchInput) {
@@ -230,3 +235,53 @@ if (inputCari && window.location.pathname.includes('gedung.html')) {
         });
     });
 }
+
+
+
+// --- LOGIKA CHECKBOX FILTER ---
+
+// 1. Fungsi untuk menangani Redirect dari index ke gedung
+const setupCheckboxRedirect = () => {
+    const redirectChecks = document.querySelectorAll('.filter-redirect');
+    
+    redirectChecks.forEach(check => {
+        check.addEventListener('change', function() {
+            if (this.checked) {
+                const filterValue = this.value; // 'ac' atau 'outdoor'
+                // Pindah ke halaman gedung dengan membawa parameter filter di URL
+                window.location.href = `gedung.html?filter=${filterValue}`;
+            }
+        });
+    });
+};
+
+// 2. Fungsi untuk menyaring tampilan di halaman gedung.html
+const applyUrlFilter = () => {
+    if (window.location.pathname.includes('gedung.html')) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterParam = urlParams.get('filter');
+
+        if (filterParam) {
+            const cards = document.querySelectorAll('.info-card');
+            
+            cards.forEach(card => {
+                const fiturGedung = card.getAttribute('data-fitur');
+                
+                // Jika fitur gedung sama dengan parameter di URL, tampilkan. Jika tidak, sembunyikan.
+                if (fiturGedung === filterParam) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    }
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+    // Jalankan fungsi redirect jika sedang di index
+    setupCheckboxRedirect();
+    
+    // Jalankan fungsi filter jika baru sampai di gedung.html
+    applyUrlFilter();
+});
