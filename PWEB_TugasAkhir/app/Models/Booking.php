@@ -10,6 +10,8 @@ class Booking extends Model
 {
     use HasFactory;
 
+    protected $table = 'bookings';
+
     protected $fillable = [
         'user_id',
         'ruangan_id',
@@ -39,7 +41,7 @@ class Booking extends Model
     }
     public function ruangan()
     {
-        return $this->belongsTo(Ruangan::class, 'ruangan_id');
+        return $this->belongsTo(Ruangan::class)->withTrashed();
     }
 
     // Scope untuk booking yang aktif (disetujui)
