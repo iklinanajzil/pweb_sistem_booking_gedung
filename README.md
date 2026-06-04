@@ -15,7 +15,7 @@
 - Tidak adanya transparansi ketersediaan ruangan
 - Dengan sistem ini, organisasi mahasiswa dapat mengajukan peminjaman ruangan secara online, sementara admin dapat mengelola dan memverifikasi pengajuan dengan mudah dan cepat.
 
-[![Demo Aplikasi]](#) [![Laporan]](#) [![Video Demo]](#)
+[![Demo Aplikasi]](roombooking-production-d1ec.up.railway.app) [![Laporan]](https://drive.google.com/file/d/1rKLQXcP9y1jGLymICkYfgL0jQ43lN4tW/view?usp=sharing) [![Video Demo]](https://youtu.be/cIj6X-EPaDg)
 
 ---
 
@@ -163,7 +163,7 @@ Buka file `.env` dan sesuaikan:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=roombooking_unej
+DB_DATABASE=pweb_tugasakhir
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -209,6 +209,7 @@ Aplikasi akan berjalan di: **http://127.0.0.1:8000**
 | Role | Email | Password |
 |------|-------|----------|
 | **Admin** | admin@unej.ac.id | password123 |
+| **organisasi** | kspmgi@gmail.com | password123 |
 
 > Organisasi harus ditambahkan oleh admin melalui menu **Kelola Organisasi**.
 
@@ -225,6 +226,8 @@ Aplikasi akan berjalan di: **http://127.0.0.1:8000**
 | `peminjaman` | 16 | `id` | `user_id`, `ruangan_id` |
 | `visitor_stats` | 5 | `id` | `user_id` |
 | `password_reset_tokens` | 3 | `email` | - |
+
+dapat mengunduh databasenya di repository ini dengan nama filenya pweb_tugasakhir.sql
 
 
 ---
