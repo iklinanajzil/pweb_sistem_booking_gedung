@@ -5,7 +5,7 @@
 ![PHP](https://img.shields.io/badge/PHP-8.1+-blue?logo=php)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.1.3-purple?logo=bootstrap)
 ![MySQL](https://img.shields.io/badge/MySQL-5.7+-orange?logo=mysql)
-![License](https://img.shields.io/badge/License-MIT-green)
+
 
 > **RoomBooking UNEJ** adalah sistem informasi peminjaman ruangan berbasis web yang dikembangkan khusus untuk Universitas Jember. Sistem ini hadir untuk mengatasi permasalahan peminjaman ruangan yang masih dilakukan secara manual, seperti:
 - Proses administrasi yang lama dan berbelit
@@ -15,7 +15,7 @@
 - Tidak adanya transparansi ketersediaan ruangan
 - Dengan sistem ini, organisasi mahasiswa dapat mengajukan peminjaman ruangan secara online, sementara admin dapat mengelola dan memverifikasi pengajuan dengan mudah dan cepat.
 
-[![Demo Aplikasi]](roombooking-production-d1ec.up.railway.app) [![Laporan]](https://drive.google.com/file/d/1rKLQXcP9y1jGLymICkYfgL0jQ43lN4tW/view?usp=sharing) [![Video Demo]](https://youtu.be/cIj6X-EPaDg)
+[![Demo Aplikasi]](https://roombooking-production-d1ec.up.railway.app) [![Laporan]](https://drive.google.com/file/d/1rKLQXcP9y1jGLymICkYfgL0jQ43lN4tW/view?usp=sharing) [![Video Demo]](https://youtu.be/cIj6X-EPaDg)
 
 ---
 
